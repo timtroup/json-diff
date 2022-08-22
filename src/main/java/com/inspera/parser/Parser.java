@@ -32,7 +32,7 @@ public class Parser {
     public JsonObject parse(JsonObject before, JsonObject after) {
         JsonObject result = new JsonObject();
         JsonArray metaArray = buildMeta(before, after);
-        result.add("meta", metaArray);
+        result.add(META, metaArray);
 
         JsonObject candidates = buildCandidates(before, after);
         result.add(CANDIDATES, candidates);
@@ -59,7 +59,7 @@ public class Parser {
                 JsonObject candidateBefore = candidateBeforeOptional.get();
                 if(!candidateBefore.equals(candidateAfter)) {
                     JsonObject editedCandidate = new JsonObject();
-                    editedCandidate.addProperty("id", candidateId);
+                    editedCandidate.addProperty(ID, candidateId);
                     edited.add(editedCandidate);
                 }
             }
@@ -91,7 +91,7 @@ public class Parser {
 
         afterIds.forEach(id -> {
             JsonObject addedCandidateId = new JsonObject();
-            addedCandidateId.addProperty("id", id);
+            addedCandidateId.addProperty(ID, id);
             added.add(addedCandidateId);
         });
 
@@ -111,7 +111,7 @@ public class Parser {
 
         beforeIds.forEach(id -> {
             JsonObject removedCandidateId = new JsonObject();
-            removedCandidateId.addProperty("id", id);
+            removedCandidateId.addProperty(ID, id);
             removed.add(removedCandidateId);
         });
 
@@ -120,7 +120,7 @@ public class Parser {
 
     private static Set<Integer> getIds(JsonArray candidates) {
         Set<Integer> ids = new HashSet<>();
-        candidates.forEach(jsonElement -> ids.add(jsonElement.getAsJsonObject().get("id").getAsInt()));
+        candidates.forEach(jsonElement -> ids.add(jsonElement.getAsJsonObject().get(ID).getAsInt()));
         return ids;
     }
 
